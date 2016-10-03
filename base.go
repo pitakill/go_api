@@ -16,7 +16,6 @@ func main() {
 		fmt.Print(err.Error())
 	}
 	defer db.Close()
-	// make sure connection is available
 	err = db.Ping()
 	if err != nil {
 		fmt.Print(err.Error())
@@ -27,7 +26,7 @@ func main() {
 		Last_Name  string
 	}
 	router := gin.Default()
-	// Add API handlers here
+
 	router.GET("/person/:id", func(c *gin.Context) {
 		var (
 			person Person
@@ -94,6 +93,46 @@ func main() {
 		name := buffer.String()
 		c.JSON(http.StatusOK, gin.H{
 			"message": fmt.Sprintf(" %s successfully created", name),
+		})
+	})
+
+	router.PUT("/person", func(c *gin.Context) {
+		var buffer bytes.Buffer
+		id := c.Query("id")
+		first_name := c.PostForm("first_name")
+		last_name := c.PostForm("last_name")
+		stmt, err := db.Prepare("update person set first_name= ?, last_name= ? where id= ?;")
+		if err != nil {
+			fmt.Print(err.Error())
+		}
+		_, err = stmt.Exec(first_name, last_name, id)
+		if err != nil {
+			fmt.Print(err.Error())
+		}
+
+		// Fastest way to append strings
+		buffer.WriteString(first_name)
+		buffer.WriteString(" ")
+		buffer.WriteString(last_name)
+		defer stmt.Close()
+		name := buffer.String()
+		c.JSON(http.StatusOK, gin.H{
+			"message": fmt.Sprintf("Successfully updated to %s", name),
+		})
+	})
+
+	router.DELETE("/person", func(c *gin.Context) {
+		id := c.Query("id")
+		stmt, err := db.Prepare("delete from person where id= ?;")
+		if err != nil {
+			fmt.Print(err.Error())
+		}
+		_, err = stmt.Exec(id)
+		if err != nil {
+			fmt.Print(err.Error())
+		}
+		c.JSON(http.StatusOK, gin.H{
+			"message": fmt.Sprintf("Successfully deleted user: %s", id),
 		})
 	})
 
