@@ -1,6 +1,0 @@
-{
-  "environment": {
-    "devel": "hola",
-    "prod": "mundo"
-  }
-}
