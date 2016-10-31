@@ -1,18 +1,1 @@
-{
-  "environment": {
-    "devel": {
-      "database": "gotest",
-      "port": "3306",
-      "user": "root",
-      "password": "password",
-      "system": {
-        "linux": {
-          "ip": "127.0.0.1"
-        },
-        "darwin": {
-          "ip": "192.168.99.100"
-        }
-      }
-    }
-  }
-}
+hopperbox-backend-config/config.json
