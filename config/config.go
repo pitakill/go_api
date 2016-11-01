@@ -12,7 +12,8 @@ type Config struct {
 }
 
 type Environment struct {
-	Devel Data
+	Devel      Data
+	Production Data
 }
 
 type Data struct {
@@ -41,9 +42,15 @@ type DataConfig struct {
 
 func NewConfig(data Config) DataConfig {
 	config := DataConfig{}
-	environment := os.Getenv("GO_API_ENV")
+	environment := os.Getenv("GO_API_MODE")
 
-	if environment == "devel" || environment == "" {
+	if environment == "production" {
+		config.Port = data.Environment.Production.Port
+		config.User = data.Environment.Production.User
+		config.Database = data.Environment.Production.Database
+		config.Password = data.Environment.Production.Password
+		config.IP = data.Environment.Production.System.Linux.IP
+	} else {
 		config.Port = data.Environment.Devel.Port
 		config.User = data.Environment.Devel.User
 		config.Database = data.Environment.Devel.Database

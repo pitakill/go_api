@@ -1,0 +1,3 @@
+[submodule "hopperbox-backend-config"]
+	path = hopperbox-backend-config
+	url = git@bitbucket.org:pitakill/hopperbox-backend-config.git
