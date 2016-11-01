@@ -9,11 +9,16 @@ import (
 func main() {
 	router := gin.Default()
 
-	router.GET("persons", person.GetPersons)
-	router.GET("person/:id", person.GetPerson)
-	router.POST("person", person.PostPerson)
-	router.PUT("person/:id", person.PutPerson)
-	router.DELETE("person/:id", person.DeletePerson)
+	api := router.Group("/api")
+
+	v1 := api.Group("/v1")
+	{
+		v1.GET("persons", person.GetPersons)
+		v1.GET("person/:id", person.GetPerson)
+		v1.POST("person", person.PostPerson)
+		v1.PUT("person/:id", person.PutPerson)
+		v1.DELETE("person/:id", person.DeletePerson)
+	}
 
 	router.Run(":3000")
 }
