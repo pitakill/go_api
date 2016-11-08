@@ -109,7 +109,6 @@ func PostPerson(c *gin.Context) {
 }
 
 func PutPerson(c *gin.Context) {
-
 	id := c.Param("id")
 
 	var (
