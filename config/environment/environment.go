@@ -1,4 +1,4 @@
-package config
+package environment
 
 import (
 	"encoding/json"
@@ -68,7 +68,6 @@ func NewConfig(data Config) DataConfig {
 }
 
 func GetConfig() DataConfig {
-
 	file, _ := os.Open("config.json")
 	decoder := json.NewDecoder(file)
 	var config Config

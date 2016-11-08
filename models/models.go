@@ -15,7 +15,6 @@ type User struct {
 	Last_Name  string  `json:"last_name"`
 	Email      string  `json:"email"`
 	Username   string  `json:"username"`
-	Password   string  `json:"password"`
 	Type       string  `json:"type"`
 	Twitter    *string `json:"twitter"`
 }

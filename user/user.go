@@ -3,11 +3,11 @@ package user
 import (
 	"crypto/sha512"
 	"encoding/hex"
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 
+	"github.com/pitakill/go_api/config/message"
 	"github.com/pitakill/go_api/jwt"
 	"github.com/pitakill/go_api/models"
 	"github.com/pitakill/go_api/orm"
@@ -34,21 +34,21 @@ func Login(c *gin.Context) {
 
 	passwordHashed := sha2Password(password)
 
-	fmt.Println(email, passwordHashed)
-
 	row := db.QueryRow("SELECT id, first_name, last_name, email, username, type, twitter from user WHERE email=? AND password=?;", email, passwordHashed)
 	err := row.Scan(&user.Id, &user.First_Name, &user.Last_Name, &user.Email, &user.Username, &user.Type, &user.Twitter)
+
+	configMessage := message.GetMessagesUser()
 
 	if err != nil {
 		status = http.StatusNotFound
 		result = gin.H{
-			"code":    1337,
-			"message": "User not found, please verify email and password",
+			"code":    configMessage.User.Login.Error.Code,
+			"message": configMessage.User.Login.Error.Message,
 		}
 	} else {
 		status = http.StatusOK
 		result = gin.H{
-			"token": jwt.CreateToken(user.Id, user.Email),
+			"token": jwt.CreateToken(user),
 		}
 	}
 
