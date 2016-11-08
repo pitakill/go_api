@@ -5,11 +5,13 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
+
+	"github.com/pitakill/go_api/models"
 )
 
 var hmacSampleSecret []byte
 
-func CreateToken(id int, email string) string {
+func CreateToken(user models.User) string {
 	if keyData, e := ioutil.ReadFile("jwtKey"); e == nil {
 		hmacSampleSecret = keyData
 	}
@@ -18,10 +20,9 @@ func CreateToken(id int, email string) string {
 	const validUntil int64 = 60 * 60 // 1 hour
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"email": email,
-		"exp":   now + validUntil,
-		"id":    id,
-		"nbf":   now,
+		"exp":  now + validUntil,
+		"nbf":  now,
+		"user": user,
 	})
 
 	tokenString, _ := token.SignedString(hmacSampleSecret)

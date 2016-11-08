@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 
+	configApi "github.com/pitakill/go_api/config/api"
 	"github.com/pitakill/go_api/person"
 	"github.com/pitakill/go_api/user"
 )
@@ -26,5 +27,5 @@ func main() {
 		users.POST("login", user.Login)
 	}
 
-	router.Run(":3000")
+	router.Run(":" + configApi.GetConfig())
 }

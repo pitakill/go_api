@@ -6,11 +6,11 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 
-	"github.com/pitakill/go_api/config"
+	"github.com/pitakill/go_api/config/environment"
 )
 
 func Connection() *sql.DB {
-	config := config.GetConfig()
+	config := environment.GetConfig()
 
 	params := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", config.User, config.Password, config.IP, config.Port, config.Database)
 
