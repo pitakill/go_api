@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/pitakill/go_api/person"
+	"github.com/pitakill/go_api/user"
 )
 
 func main() {
@@ -18,6 +19,11 @@ func main() {
 		v1.POST("person", person.PostPerson)
 		v1.PUT("person/:id", person.PutPerson)
 		v1.DELETE("person/:id", person.DeletePerson)
+	}
+
+	users := v1.Group("/user")
+	{
+		users.POST("login", user.Login)
 	}
 
 	router.Run(":3000")
