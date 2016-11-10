@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	configApi "github.com/pitakill/go_api/config/api"
+	"github.com/pitakill/go_api/errors"
 	"github.com/pitakill/go_api/person"
 	"github.com/pitakill/go_api/user"
 )
@@ -26,6 +27,8 @@ func main() {
 	{
 		users.POST("login", user.Login)
 	}
+
+	router.NoRoute(errors.NotFound)
 
 	router.Run("localhost:" + configApi.GetConfig())
 }
