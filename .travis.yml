@@ -1,7 +1,10 @@
 language: go
 
+git:
+  submodules: false
+
 go:
   - 1.7.3
 
 script:
-  go test
+  ./run-test.sh
